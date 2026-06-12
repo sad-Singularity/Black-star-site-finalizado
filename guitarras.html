@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas guitarras</title>
+    <link rel="shortcut icon" href="guitarr.ico" type="image/x-icon">
+    <link rel="stylesheet" href="guitarra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="artistas.html">Conheça os Artistas</a></li>
+            <li><a href="index.html">Black Star</a></li>
+            <li><a href="carrinho.html">Lista de Desejos <span id="contador">0</span></a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1 style="text-align: center;"><strong>Conheça sua melhor parceira</strong></h1>
+<hr size="5" color="#49111c" width="100%">
+<h2 style="text-align: center;">Veja cada detalhe das nossas guitarras</h2>
+
+<div class="galeria">
+
+    <div class="item">
+        <img src="Epiphone SG.jpg" class="image">
+        <div class="painel">
+            <h1>Epiphone SG</h1>
+            <h2>Modelo classico</h2>
+            <span>R$1.900,00</span>
+            <div class="botoes">
+                <button onclick="adicionarCarrinho('Epiphone SG', 1900, 'Epiphone SG.jpg')">🛒 Adicionar</button>
+                <button onclick="window.open('https:www.mercadolivre.com.br/guitarra-epiphone-sg-pro-g400-cherry-hh--61-vintage--sp26/up/MLBU3756731785#polycard_client=search-desktop&be_origin=backend&search_layout=grid&position=20&type=product&tracking_id=833b6bcb-711e-404c-93fd-cbe11d2ac841&wid=MLB4450164615&sid=search')">Compre aqui!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <img src="Ibanez Tim Henson Signature Model TOD10.jpeg" class="image">
+        <div class="painel">
+            <h1>Ibanez TOD10</h1>
+            <h2>Assinatura Tim Henson</h2>
+            <span>R$15.000,00</span>
+            <div class="botoes">
+                <button onclick="adicionarCarrinho('Ibanez TOD10', 15000, 'Ibanez Tim Henson Signature Model TOD10.jpeg')">🛒 Adicionar</button>
+                <button onclick="window.open('https:www.mercadolivre.com.br/guitarra-ibanez-corpo-american-basswood-acabamento-silver-destro-prateado-pau-rosa/p/MLB42091127#polycard_client=search-desktop&be_origin=backend&search_layout=grid&position=1&type=product&tracking_id=6b1b5398-2a7d-4a23-853d-0026e8f25363&wid=MLB4497481801&sid=search')">Compre aqui!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <img src="guitarra Kurt Cobain Fender Jaguar TL 3CSB.jpeg" class="image">
+        <div class="painel">
+            <h1>Fender Jaguar</h1>
+            <h2>Modelo classico</h2>
+            <span>R$1.376,00</span>
+            <div class="botoes">
+                <button onclick="adicionarCarrinho('Fender Jaguar', 1376, 'guitarra Kurt Cobain Fender Jaguar TL 3CSB.jpeg')">🛒 Adicionar</button>
+                <button onclick="window.open('https:www.mercadolivre.com.br/guitarra-squier-by-fender-jaguar-affinity-series-sunburst-destro-laurel/p/MLB39984307#polycard_client=search-desktop&be_origin=backend&search_layout=grid&position=3&type=product&tracking_id=896f169f-7ce3-4ffc-bff8-06642575d364&wid=MLB4103506673&sid=search')">Compre aqui!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <img src="blue floral steve  vai.jpeg" class="image">
+        <div class="painel">
+            <h1>Ibanez Floral</h1>
+            <h2>Assinatura Steve Vai</h2>
+            <span>R$19.200,00</span>
+            <div class="botoes">
+                <button onclick="adicionarCarrinho('Ibanez Floral', 19200, 'blue floral steve  vai.jpeg')">🛒 Adicionar</button>
+                <button onclick="window.open('https:www.mercadolivre.com.br/guitarra-ibanez-jem-77p-premiun-bfp-cor-azul-material-da-escala-maplewalnut-orientaco-da-mo-destro/p/MLB26794153#polycard_client=search-desktop&be_origin=backend&search_layout=grid&position=1&type=product&tracking_id=6bb9b8ea-d962-429a-af12-4e5ec1a6e8a2&wid=MLB6187366116&sid=search')">Compre aqui!</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function adicionarCarrinho(nome, preco, imagem) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const existente = carrinho.find(item => item.nome === nome);
+
+        if (existente) {
+            existente.quantidade++;
+        } else {
+            carrinho.push({ nome, preco, imagem, quantidade: 1 });
+        }
+
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        atualizarContador();
+
+        alert(`${nome} adicionado ao carrinho!`);
+    }
+
+    function atualizarContador() {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const total = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+        document.getElementById('contador').textContent = total;
+    }
+
+    atualizarContador();
+</script>
+
+</body>
+</html>

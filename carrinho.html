@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+    <link rel="shortcut icon" href="guitarr.ico" type="image/x-icon">
+    <link rel="stylesheet" href="carrinho.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="guitarras.html">Guitarras Disponiveis</a></li>
+            <li><a href="index.html">Black Star</a></li>
+            <li><a href="artistas.html">Conheça os Artistas</a></li>
+        </ul>
+    </nav>
+</header>
+
+<h1 style="text-align: center;"><strong>Sua lista de desejos</strong> </h1>
+<hr size="5" color="#49111c" width="100%">
+
+<div class="carrinho-container">
+    <div id="carrinho-itens"></div>
+
+    <div class="resumo">
+        <h2>Resumo do Pedido</h2>
+        <p>Itens: <span id="total-itens"> 0</span></p>
+        <p>Total: <span id="total-valor">R$0,00</span></p>
+        <button onclick="limparCarrinho()">🗑 Limpar Carrinho</button>
+        <button class="btn-finalizar">✔ Finalizar Pedido</button>
+    </div>
+</div>
+
+<script>
+    function renderizarCarrinho() {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        const container = document.getElementById('carrinho-itens');
+        const totalItensEl = document.getElementById('total-itens');
+        const totalValorEl = document.getElementById('total-valor');
+
+        container.innerHTML = '';
+
+        if (carrinho.length === 0) {
+            container.innerHTML = '<p class="vazio">Seu carrinho está vazio.</p>';
+            totalItensEl.textContent = '0';
+            totalValorEl.textContent = 'R$0,00';
+            return;
+        }
+
+        let totalItens = 0;
+        let totalValor = 0;
+
+        carrinho.forEach((item, index) => {
+            totalItens += item.quantidade;
+            totalValor += item.preco * item.quantidade;
+
+            const card = document.createElement('div');
+            card.classList.add('item-carrinho');
+            card.innerHTML = `
+                <img src="${item.imagem}" alt="${item.nome}">
+                <div class="info">
+                    <h2>${item.nome}</h2>
+                    <p>R$${item.preco.toLocaleString('pt-BR')},00 cada</p>
+                    <div class="quantidade">
+                        <button onclick="alterarQuantidade(${index}, -1)">−</button>
+                        <span>${item.quantidade}</span>
+                        <button onclick="alterarQuantidade(${index}, 1)">+</button>
+                    </div>
+                    <p class="subtotal">Subtotal: R$${(item.preco * item.quantidade).toLocaleString('pt-BR')},00</p>
+                </div>
+                <button class="btn-remover" onclick="removerItem(${index})">✕ Remover</button>
+            `;
+            container.appendChild(card);
+        });
+
+        totalItensEl.textContent = totalItens;
+        totalValorEl.textContent = 'R$' + totalValor.toLocaleString('pt-BR') + ',00';
+    }
+
+    function alterarQuantidade(index, valor) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho[index].quantidade += valor;
+
+        if (carrinho[index].quantidade <= 0) {
+            carrinho.splice(index, 1);
+        }
+
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        renderizarCarrinho();
+    }
+
+    function removerItem(index) {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho.splice(index, 1);
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        renderizarCarrinho();
+    }
+
+    function limparCarrinho() {
+        localStorage.removeItem('carrinho');
+        renderizarCarrinho();
+    }
+
+    renderizarCarrinho();
+</script>
+
+</body>
+</html>
